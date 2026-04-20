@@ -41,9 +41,7 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     val message = "Hello, $name"
 
-    LaunchedEffect(Unit) {
-        val mainViewModel = MainViewModel().performWiFiOperations(message)
-    }
+    MainViewModel().performWiFiOperations(message)
 
     Text(
         text = message,
