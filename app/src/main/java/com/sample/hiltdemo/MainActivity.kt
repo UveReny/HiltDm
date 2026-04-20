@@ -9,11 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sample.hiltdemo.ui.theme.HiltDemoTheme
+import com.sample.hiltdemo.wifi.WiFiManager
+import com.sample.hiltdemo.wifi.WiFiSettings
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,8 +39,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    val message = "Hello, $name"
+
+    LaunchedEffect(Unit) {
+        val mainViewModel = MainViewModel().performWiFiOperations(message)
+    }
+
     Text(
-        text = "Hello $name!",
+        text = message,
         modifier = modifier
     )
 }
@@ -42,6 +55,19 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     HiltDemoTheme {
-        Greeting("Android")
+        Greeting("Preview")
+    }
+}
+
+// В ViewModel
+class MainViewModel : ViewModel() {
+    fun performWiFiOperations(message: String) {
+        viewModelScope.launch {
+             val settings = WiFiSettings()
+            val manager = WiFiManager(settings)
+            manager.connect()
+            manager.sendMessage(message)
+            manager.close()
+        }
     }
 }
