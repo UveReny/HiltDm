@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import com.sample.hiltdemo.ui.theme.HiltDemoTheme
 import com.sample.hiltdemo.wifi.WiFiManager
 import com.sample.hiltdemo.wifi.WiFiSettings
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -61,7 +62,7 @@ fun GreetingPreview() {
 class MainViewModel : ViewModel() {
     fun performWiFiOperations(message: String) {
         viewModelScope.launch {
-             val settings = WiFiSettings()
+            val settings = WiFiSettings()
             val manager = WiFiManager(settings)
             manager.connect()
             manager.sendMessage(message)
