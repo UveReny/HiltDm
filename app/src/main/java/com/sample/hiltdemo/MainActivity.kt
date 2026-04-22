@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
             wiFiManager.connect()
             wiFiManager.sendMessage(message)
             wiFiManager.close()
-
             Text(text = message, Modifier.padding(32.dp))
         }
     }
