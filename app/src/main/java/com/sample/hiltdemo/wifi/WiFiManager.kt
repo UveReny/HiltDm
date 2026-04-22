@@ -1,6 +1,8 @@
 package com.sample.hiltdemo.wifi
 
-class WiFiManager(private val settings: WiFiSettings ) {
+import javax.inject.Inject
+
+class WiFiManager @Inject constructor(private val settings: WiFiSettings ) {
     fun connect() {
         settings.openConnection()
     }
